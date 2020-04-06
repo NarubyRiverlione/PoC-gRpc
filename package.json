@@ -1,0 +1,16 @@
+{
+  "name": "poc-grpc",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "lint": "eslint */*.js --fix",
+    "client": "node client.js",
+    "server": "node server.js"
+  },
+  "keywords": [],
+  "author": "Naruby",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
