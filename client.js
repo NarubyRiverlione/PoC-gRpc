@@ -1,7 +1,8 @@
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
+const { CstServerIP, CstServerPort } = require('./Cst')
 
-const PROTO_PATH = __dirname + '/protos/helloworld.proto'
+const PROTO_PATH = __dirname + '/protos/Subber.proto'
 
 const packageDefinition = protoLoader.loadSync(
   PROTO_PATH,
@@ -14,29 +15,28 @@ const packageDefinition = protoLoader.loadSync(
   })
 
 // The protoDescriptor object has the full package hierarchy
-const protoDescriptor = grpc.loadPackageDefinition(packageDefinition)
+const proto = grpc.loadPackageDefinition(packageDefinition)
 
-const main = () => {
-  const client = new protoDescriptor.Greeter('localhost:50051',
-    grpc.credentials.createInsecure())
 
-  let user
-  if (process.argv.length >= 3) {
-    user = process.argv[2]
-  }
-  else {
-    user = 'world'
+module.exports = class Client {
+  constructor(serverIP = CstServerIP, serverPort = CstServerPort) {
+    this.serverIP = serverIP
+    this.serverPort = serverPort
   }
 
-  client.sayHello({ name: user }, function (err, response) {
-    if (err) {
-      console.error(err.message)
-      return
-    }
+  GetOxygen() {
+    const oxygenClient = new proto.Oxygen(`${this.serverIP}:${this.serverPort}`,
+      grpc.credentials.createInsecure())
 
-    console.log('Greeting:', response.reply)
-
-  })
+    return new Promise((resolve, reject) => {
+      oxygenClient.Get({}, (err, respone) => {
+        if (err) {
+          console.error(err.message)
+          return reject(err)
+        }
+        return resolve(respone.value)
+      })
+    })
+  }
 }
 
-main()

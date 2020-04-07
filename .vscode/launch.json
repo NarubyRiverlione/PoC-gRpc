@@ -7,8 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Server",
-      "program": "${workspaceFolder}/Server.js",
+      "name": "nodemon Server",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/server/server.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
       "skipFiles": [
         "<node_internals>/**"
       ]
@@ -16,13 +20,23 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Client",
+      "name": "Launch Server",
+      "program": "${workspaceFolder}/server/server.js",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Cli",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/Client.js",
+      "program": "${workspaceFolder}/cli.js",
       "args": [
-        "Renaat"
+        "oxygen",
+        "get"
       ]
     },
   ]

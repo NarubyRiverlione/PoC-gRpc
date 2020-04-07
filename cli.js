@@ -1,19 +1,38 @@
 'use strict'
 
-const { CstCmd } = require('./Cst')
+const { CstCmd, CstService, CstHelpTxt, CstUnknown } = require('./Cst.js')
 const Client = require('./Client')
 
 const Args = process.argv
 // console.log(Args)
-const rpcCmd = Args[2] ? Args[2].toLowerCase() : console.error('Geen gRpc functie opgegeven')
+const rpcService = Args[2] ? Args[2].toLowerCase() : null
+const rpcCmd = Args[3] ? Args[3].toLowerCase() : null
 
-const client = new Client('server naam')
+const client = new Client()
 
-switch (rpcCmd) {
-  case CstCmd.Start:
+const CmdOxygen = () => {
+  switch (rpcCmd) {
+    case CstCmd.Get:
+      client.GetOxygen()
+        .then(o2 =>
+          console.log(`OXYGEN at ${o2}%`))
+        .catch(err =>
+          console.error(err.message))
+      break
+
+
+    default:
+      console.error(CstUnknown)
+  }
+}
+
+
+switch (rpcService) {
+  /*
+    case CstCmd.Start:
     client.StartInterval()
     break
-
+    
   case CstCmd.Stop:
     client.StopInterval()
     break
@@ -21,16 +40,16 @@ switch (rpcCmd) {
   case CstCmd.Info:
     console.log(Client.Info())
     break
+*/
+  case CstService.Oxygen:
+    CmdOxygen()
+    break
 
   case CstCmd.Help:
-    console.log(`Deze gRpc client heeft de volgende commando's :
-    start : 
-    stop  : 
-    info  : 
-    `)
+    console.log(CstHelpTxt)
     break
 
   default:
-    console.error(`Onbekende gRpc functie : ${rpcCmd}
-    Bekijk de geldige commando's via 'client help'`)
+    console.error(CstUnknown)
 }
+
