@@ -1,36 +1,42 @@
-'use strict'
+const grpc = require('grpc')
+const protoLoader = require('@grpc/proto-loader')
 
-const { CstCmd } = require('./Cst')
-const gRpcClient = require('./Client/gRpcClient')
+const PROTO_PATH = __dirname + '/protos/helloworld.proto'
 
-const Args = process.argv
-// console.log(Args)
-const rpcCmd = Args[2] ? Args[2].toLowerCase() : console.error('Geen gRpc functie opgegeven')
+const packageDefinition = protoLoader.loadSync(
+  PROTO_PATH,
+  {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  })
 
-const Client = new gRpcClient('server naam')
+// The protoDescriptor object has the full package hierarchy
+const protoDescriptor = grpc.loadPackageDefinition(packageDefinition)
 
-switch (rpcCmd) {
-  case CstCmd.Start:
-    Client.Start()
-    break
+const main = () => {
+  const client = new protoDescriptor.Greeter('localhost:50051',
+    grpc.credentials.createInsecure())
 
-  case CstCmd.Stop:
-    Client.Stop()
-    break
+  let user
+  if (process.argv.length >= 3) {
+    user = process.argv[2]
+  }
+  else {
+    user = 'world'
+  }
 
-  case CstCmd.Info:
-    console.log(Client.Info())
-    break
+  client.sayHello({ name: user }, function (err, response) {
+    if (err) {
+      console.error(err.message)
+      return
+    }
 
-  case CstCmd.Help:
-    console.log(`Deze gRpc client heeft de volgende commando's :
-    start : 
-    stop  : 
-    info  : 
-    `)
-    break
+    console.log('Greeting:', response.reply)
 
-  default:
-    console.error(`Onbekende gRpc functie : ${rpcCmd}
-    Bekijk de geldige commando's via 'client help'`)
+  })
 }
+
+main()

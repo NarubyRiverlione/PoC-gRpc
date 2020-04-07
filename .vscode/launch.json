@@ -7,38 +7,23 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Client: start",
+      "name": "Launch Server",
+      "program": "${workspaceFolder}/Server.js",
       "skipFiles": [
         "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/client.js",
-      "args": [
-        "start"
       ]
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Client: stop",
+      "name": "Client",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/client.js",
+      "program": "${workspaceFolder}/Client.js",
       "args": [
-        "stop"
+        "Renaat"
       ]
     },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Client: info",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/client.js",
-      "args": [
-        "info"
-      ]
-    }
   ]
 }
