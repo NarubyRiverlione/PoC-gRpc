@@ -1,7 +1,7 @@
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 
-const { CstServerIP, CstServerPort } = require('../Cst')
+const { CstServerIP, CstServerPort, CstBoundaries } = require('../Cst')
 
 const Subber = require('./subber')
 
@@ -23,18 +23,26 @@ const proto = grpc.loadPackageDefinition(packageDefinition)
 // initialize Subber
 const subber = new Subber()
 
+const CheckBoundaries = (Min, Max, Value) => (
+  Value < Min ? Min
+    : Value > Max ? Max
+      : Value
+)
 /* Oxygen */
 const getOxygen = (call, callback) => {
   console.log('GET oxygen: ' + subber.oxygen)
   callback(null, { value: subber.oxygen })
 }
 const SetOxygen = (call, callback) => {
-  subber.oxygen = call.newValue
+  const { request: { newValue } } = call
+  const Checked = CheckBoundaries(CstBoundaries.Oxygen.Min, CstBoundaries.Oxygen.Max, newValue)
+  console.log('SET oxygen to ' + Checked)
+  subber.SetOxygen(Checked)
   return getOxygen(call, callback)
 }
 const ChangeByDelta = (call, callback) => {
-  subber.oxygen += call.delta
-  return getOxygen(call, callback)
+  console.log('CHANGE oxygen with ' + call.request.delta)
+  return SetOxygen({ request: { newValue: (call.request.delta + subber.oxygen) } }, callback)
 }
 
 
@@ -43,7 +51,7 @@ const ChangeByDelta = (call, callback) => {
  first argument = server IP
  second argument = server port
  */
-const main = () => {
+const server = () => {
   const Args = process.argv
   // console.log(Args)
   const serverIP = Args[2] || CstServerIP
@@ -55,4 +63,4 @@ const main = () => {
   server.start()
 }
 
-main()
+server()

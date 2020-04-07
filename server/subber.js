@@ -3,4 +3,7 @@ module.exports = class Subber {
     this.oxygen = 50
   }
 
+  SetOxygen(o2) {
+    this.oxygen = o2
+  }
 }

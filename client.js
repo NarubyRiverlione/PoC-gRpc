@@ -31,7 +31,34 @@ module.exports = class Client {
     return new Promise((resolve, reject) => {
       oxygenClient.Get({}, (err, respone) => {
         if (err) {
-          console.error(err.message)
+          return reject(err)
+        }
+        return resolve(respone.value)
+      })
+    })
+  }
+
+  SetOxygen(newValue) {
+    const oxygenClient = new proto.Oxygen(`${this.serverIP}:${this.serverPort}`,
+      grpc.credentials.createInsecure())
+
+    return new Promise((resolve, reject) => {
+      oxygenClient.Set({ newValue }, (err, respone) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(respone.value)
+      })
+    })
+  }
+
+  ChangeOxygen(delta) {
+    const oxygenClient = new proto.Oxygen(`${this.serverIP}:${this.serverPort}`,
+      grpc.credentials.createInsecure())
+
+    return new Promise((resolve, reject) => {
+      oxygenClient.ChangeByDelta({ delta }, (err, respone) => {
+        if (err) {
           return reject(err)
         }
         return resolve(respone.value)

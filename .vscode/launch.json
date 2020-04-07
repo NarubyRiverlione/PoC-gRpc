@@ -36,7 +36,8 @@
       "program": "${workspaceFolder}/cli.js",
       "args": [
         "oxygen",
-        "get"
+        "change",
+        "-10"
       ]
     },
   ]

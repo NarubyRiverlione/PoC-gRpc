@@ -34,7 +34,11 @@ const CstHelpTxt = `Deze gRpc client is te gebruiken via 'service' 'commando'
 
 const CstUnknown = 'Unknown service or command, use \'help\' to see services'
 
+const CstBoundaries = {
+  Oxygen: { Max: 100, Min: 0 }
+}
+
 module.exports = {
   CstCmd, CstService, CstHelpTxt, CstUnknown,
-  CstServerIP, CstServerPort
+  CstServerIP, CstServerPort, CstBoundaries
 }
