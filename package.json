@@ -22,6 +22,9 @@
     "grpc": "^1.11.0"
   },
   "nodemonConfig": {
-    "watch": "/gRpc/server.js"
+    "watch": [
+      "/gRpc/server.js",
+      "/gRpc/subber.js"
+    ]
   }
 }

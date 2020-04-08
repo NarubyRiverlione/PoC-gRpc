@@ -1,6 +1,9 @@
 syntax = "proto3";
 
-
+service Conn {
+  rpc StartStatusUpdates (EmptyRequest) returns (stream StatusResponse);
+  rpc EndStatusUpdates (EmptyRequest) returns (StatusResponse);
+}
 service Air {
   rpc Info (EmptyRequest) returns (ValueResponse);
   rpc ChargeStart (EmptyRequest) returns (StatusResponse);

@@ -9,22 +9,28 @@
       "request": "launch",
       "name": "nodemon Server",
       "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/server/server.js",
+      "program": "${workspaceFolder}/gRpc/server.js",
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "skipFiles": [
         "<node_internals>/**"
-      ]
+      ],
+      "env": {
+        "DEBUG": "subber:*"
+      }
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch Server",
-      "program": "${workspaceFolder}/server/server.js",
+      "program": "${workspaceFolder}/gRpc/server.js",
       "skipFiles": [
         "<node_internals>/**"
-      ]
+      ],
+      "env": {
+        "DEBUG": "subber:*"
+      }
     },
     {
       "type": "node",
@@ -35,10 +41,12 @@
       ],
       "program": "${workspaceFolder}/cli.js",
       "args": [
-        "oxygen",
-        "change",
-        "-10"
-      ]
+        "air",
+        "info"
+      ],
+      "env": {
+        "DEBUG": "subber:*"
+      }
     },
   ]
 }

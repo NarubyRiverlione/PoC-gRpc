@@ -13,12 +13,27 @@ module.exports = class Subber {
     this.AirChargingInterval = null
     this.BlowInterval = null
     this.FillInterval = null
+
+    this.ExtraStatusTxt = ''
   }
+  //#region Conn
+  Status() {
+    this.ExtraStatusTxt = this.ExtraStatusTxt ? `\n--> ${this.ExtraStatusTxt}\n` : ''
+    return `${this.ExtraStatusTxt}
+Depth = ${ this.Depth.toFixed(0)} meters
+Air = ${ this.Air.toFixed(0)} %
+Balasttank = ${ this.Balast.toFixed(0)} % `
+  }
+
+  ClearExtraStatus() {
+    this.ExtraStatusTxt = ''
+  }
+  //#endregion
 
   //#region Air
   SetAir(o2) {
     if (this.Depth !== 0) {
-      debug('Cannot charge O2 with not on the surface')
+      this.ExtraStatusTxt += 'Cannot charge air supply will not on the surface'
       return
     }
     const Checked = CheckBoundaries(CstBoundaries.Air.Min, CstBoundaries.Air.Max, o2)
@@ -27,27 +42,26 @@ module.exports = class Subber {
   }
   ChangeAir(change) {
     if (change > 0 && this.Depth !== 0) {
-      debug('Cannot charge O2 with not on the surface')
+      this.ExtraStatusTxt += 'Cannot charge air supply will not on the surface'
       return
     }
     this.Air += change
     const Checked = CheckBoundaries(CstBoundaries.Air.Min, CstBoundaries.Air.Max, this.Air)
-    debug('SET air to ' + Checked)
     this.Air = Checked
   }
   StartChargeAir() {
-    debug('Start charging air')
+    this.ExtraStatusTxt += 'Start charging air'
     this.AirChargingInterval = setInterval(() => {
       this.ChangeAir(CstChanges.Air.Charging)
       if (this.Air === CstBoundaries.Air.Max) {
-        debug('Air supply is full, stop charging')
+        this.ExtraStatusTxt += 'Air supply is full, stop charging'
         this.StopChargeAir()
       }
     }, CstChanges.Interval)
   }
   StopChargeAir() {
     if (this.AirChargingInterval) {
-      debug('Stop charging air')
+      this.ExtraStatusTxt += 'Stop charging air'
       clearInterval(this.AirChargingInterval)
     }
   }
@@ -56,7 +70,7 @@ module.exports = class Subber {
   //#region Depth
   SetDepth(depth) {
     const Checked = CheckBoundaries(CstBoundaries.Depth.Min, CstBoundaries.Depth.Max, depth)
-    debug('SET depth to ' + Checked)
+    // this.ExtraStatusTxt='SET depth to ' + Checked
     this.Depth = Checked
   }
   //#endregion
@@ -69,13 +83,13 @@ module.exports = class Subber {
   }
 
   ChangeBalast(delta) {
-    debug(`Want to change balast ${this.Balast.toFixed(0)}% by ${delta}`)
+    debug(`Want to change balast ${this.Balast.toFixed(0)}% by ${delta} `)
     let newBalast
     if (delta < 0) {
       // BLOWING
       // Air in supply ?
       if (this.Air === 0) {
-        debug('No air, stop blowing')
+        this.ExtraStatusTxt += 'No air supply, stop blowing balasttank'
         this.BlowStop()
         return
       }
@@ -97,28 +111,28 @@ module.exports = class Subber {
   }
 
   BlowStart() {
-    debug('Start blowing balasttank')
+    this.ExtraStatusTxt += 'Start blowing balasttank'
     this.BlowInterval = setInterval(() => {
       this.ChangeBalast(CstChanges.Balast.Blowing)
       if (this.Balast === CstBoundaries.Balast.Min) {
-        debug('balastank is empty, stop blowing')
+        this.ExtraStatusTxt += 'balastank is empty, stop blowing'
         this.BlowStop()
       }
     }, CstChanges.Interval)
   }
   BlowStop() {
     if (this.BlowInterval) {
-      debug('Stop blowing balasttank')
+      this.ExtraStatusTxt += 'Stop blowing balasttank'
       clearInterval(this.BlowInterval)
     }
   }
 
   FillStart() {
-    debug('Start Filling balasttank')
+    this.ExtraStatusTxt += 'Start Filling balasttank'
     this.FillInterval = setInterval(() => {
       this.ChangeBalast(CstChanges.Balast.Filling)
       if (this.Balast === CstBoundaries.Balast.Max) {
-        debug('balasttank is full, stop filling')
+        this.ExtraStatusTxt += 'balasttank is full, stop filling'
         this.FillStop()
       }
     }, CstChanges.Interval)
@@ -126,7 +140,7 @@ module.exports = class Subber {
 
   FillStop() {
     if (this.FillInterval) {
-      debug('Stop Filling balasttank')
+      this.ExtraStatusTxt += 'Stop Filling balasttank'
       clearInterval(this.FillInterval)
     }
   }

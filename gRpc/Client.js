@@ -32,9 +32,38 @@ module.exports = class Client {
 
     this.balastClient = new proto.Balast(`${serverIP}:${serverPort}`,
       grpc.credentials.createInsecure())
+
+    this.connClient = new proto.Conn(`${serverIP}:${serverPort}`,
+      grpc.credentials.createInsecure())
   }
 
-  //#region OXYGEN
+  //#region  CONN
+  ConnStatus(cb, errorCb, endCb) {
+    const statusStream = this.connClient.StartStatusUpdates({})
+    statusStream.on('data', (data) => {
+      if (cb) cb(data.status)
+    })
+    statusStream.on('error', (error) => {
+      if (errorCb) errorCb(error)
+    })
+    statusStream.on('end', (status) => {
+      if (endCb) endCb('Status updates ended because: ' + status)
+    })
+  }
+
+  EndStatusUpdates() {
+    return new Promise((resolve, reject) => {
+      this.connClient.EndStatusUpdates({}, (err, respone) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(respone.status)
+      })
+    })
+  }
+  //#endregion
+
+  //#region AIR
   GetAir() {
     return new Promise((resolve, reject) => {
       this.airClient.Info({}, (err, respone) => {

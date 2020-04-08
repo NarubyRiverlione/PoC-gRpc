@@ -2,6 +2,7 @@
 const ActionsAir = require('./cli/cli-air')
 const ActionsBalast = require('./cli/cli-balast')
 const ActionsDepth = require('./cli/cli-depth')
+const ConnActions = require('./cli/cli-conn')
 
 const { CstService, CstHelpTxt, CstUnknown } = require('./Cst.js')
 
@@ -26,6 +27,9 @@ switch (rpcService) {
     break
   case CstService.Help:
     console.log(CstHelpTxt)
+    break
+  case CstService.Conn:
+    ConnActions(rpcAction, rpcCmd)
     break
 
   default:

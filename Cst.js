@@ -7,6 +7,7 @@ const CstService = {
   Depth: 'depth',
   Balast: 'balast',
   Help: 'help',
+  Conn: 'conn',
 }
 
 const CstActions = {
@@ -14,6 +15,7 @@ const CstActions = {
   Charge: 'charge',
   Blow: 'blow',
   Info: 'info',
+  Status: 'status'
 }
 
 const CstCmd = {
@@ -33,7 +35,10 @@ Control the submarine via the 'station' 'action' 'command'
 
     ${CstService.Depth}           
 
+    ${CstService.Conn}    ${CstActions.Status}    ${CstCmd.Start} - ${CstCmd.Stop}
     General action for all stations: ${CstActions.Info}
+
+    
     `
 
 const CstUnknown = {
