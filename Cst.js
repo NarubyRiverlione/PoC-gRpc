@@ -2,43 +2,67 @@
 const CstServerIP = '127.0.0.1'
 const CstServerPort = 50051
 
+const CstService = {
+  Air: 'air',
+  Depth: 'depth',
+  Balast: 'balast',
+  Help: 'help',
+}
+
+const CstActions = {
+  Fill: 'fill',
+  Charge: 'charge',
+  Blow: 'blow',
+  Info: 'info',
+}
+
 const CstCmd = {
   Start: 'start',
   Stop: 'stop',
-  Info: 'info',
-  Help: 'help',
-  Get: 'get',
-  Set: 'set',
-  Change: 'change',
 }
 
-const CstService = {
-  Oxygen: 'oxygen',
 
-}
 
-const CstHelpTxt = `Deze gRpc client is te gebruiken via 'service' 'commando'
-    * Service's *
-    oxygen
+const CstHelpTxt = `
+Control the submarine via the 'station' 'action' 'command'
+    * Stations *        * Actions *             * Commands *
+    ${CstService.Air}   ${CstActions.Charge}    ${CstCmd.Start} - ${CstCmd.Stop}
+    
+    ${CstService.Balast}   ${CstActions.Fill}    ${CstCmd.Start} - ${CstCmd.Stop}
+    ${CstService.Balast}   ${CstActions.Blow}    ${CstCmd.Start} - ${CstCmd.Stop}
 
-    * Commando's *
-    get   : get value  
-    set   : set value 
-    change: change by 
+    ${CstService.Depth}           
 
-    * Voorbeeld *
-    oxygen get
-    oxygen set 75
-    oxygen change -10
+    General action for all stations: ${CstActions.Info}
     `
 
-const CstUnknown = 'Unknown service or command, use \'help\' to see services'
+const CstUnknown = {
+  Service: 'Unknown station',
+  Action: 'Unknown action',
+  Cmd: 'Unknown command',
+  UseHelp: 'use \'cli  help\' for more information'
+}
 
 const CstBoundaries = {
-  Oxygen: { Max: 100, Min: 0 }
+  Air: { Max: 100, Min: 0 },
+  Balast: { Max: 100, Min: 0 },
+  Depth: { Max: 400, Min: 0 }
+}
+
+const CstChanges = {
+  Interval: 1000,
+  Balast: {
+    NeededAir: 0.8, // = 80 air needed for full blow
+    Blowing: -5, // = 20 step
+    Filling: 10
+  },
+  Air: {
+    Charging: 5
+  }
 }
 
 module.exports = {
   CstCmd, CstService, CstHelpTxt, CstUnknown,
-  CstServerIP, CstServerPort, CstBoundaries
+  CstServerIP, CstServerPort, CstBoundaries,
+  CstChanges, CstActions
 }

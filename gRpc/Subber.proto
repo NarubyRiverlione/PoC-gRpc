@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+
+service Air {
+  rpc Info (EmptyRequest) returns (ValueResponse);
+  rpc ChargeStart (EmptyRequest) returns (StatusResponse);
+  rpc ChargeStop (EmptyRequest) returns (StatusResponse);
+}
+service Depth {
+  rpc Info (EmptyRequest) returns (ValueResponse);
+}
+service Balast {
+  rpc Info (EmptyRequest) returns (ValueResponse);
+  rpc BlowStart (EmptyRequest) returns (StatusResponse);
+  rpc BlowStop (EmptyRequest) returns (StatusResponse);
+  rpc FillStart (EmptyRequest) returns (StatusResponse);
+  rpc FillStop (EmptyRequest) returns (StatusResponse);
+}
+
+message EmptyRequest {}
+
+message SetRequest {
+  int32 newValue = 1;
+}
+message ChangeRequest {
+  int32 delta = 1;
+}
+
+message ValueResponse {
+  int32 value = 1;
+}
+
+message StatusResponse{
+  string status=1;
+}

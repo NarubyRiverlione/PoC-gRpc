@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "lint": "eslint */*.js --fix",
-    "client": "node client.js",
-    "server": "nodemon ./server/server.js"
+    "cli": "cross-env DEBUG=subber:*  node cli.js",
+    "server": "cross-env DEBUG=subber:*  nodemon ./gRpc/server.js"
   },
   "keywords": [],
   "author": "Naruby",
@@ -16,10 +16,12 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.1.0",
     "async": "^1.5.2",
+    "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
     "google-protobuf": "^3.0.0",
     "grpc": "^1.11.0"
   },
   "nodemonConfig": {
-    "watch": "/server/server.js"
+    "watch": "/gRpc/server.js"
   }
 }
