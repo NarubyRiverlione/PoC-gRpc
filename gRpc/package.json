@@ -1,0 +1,29 @@
+{
+  "name": "subdive-grpc-server",
+  "version": "1.0.0",
+  "description": "gRPC server for SubDive",
+  "main": "server.js",
+  "scripts": {
+    "server": "cross-env DEBUG=subber:*  nodemon ./server.js"
+  },
+  "keywords": [],
+  "author": "Naruby",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.1.0",
+    "async": "^1.5.2",
+    "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
+    "google-protobuf": "^3.0.0",
+    "grpc": "^1.11.0"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./server.js",
+      "./subber.js"
+    ]
+  }
+}

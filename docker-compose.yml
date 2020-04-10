@@ -1,0 +1,24 @@
+version: '3'
+services:
+  node-server:
+    build: ./gRpc    
+    image: subdive/grpc-server
+    container_name: subdive-grpc-srv
+    ports:
+      - "9090:9090"
+    networks:
+      - servernet
+
+  envoy:
+    build: ./web
+    image: subdive/grpc-proxy
+    container_name: subdive-grpc-proxy
+    ports:
+      - "8080:8080"
+    networks:
+      - servernet
+      - default
+
+networks:
+  servernet:
+    external: false

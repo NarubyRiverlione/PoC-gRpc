@@ -1,6 +1,6 @@
 
-const CstServerIP = '127.0.0.1'
-const CstServerPort = 50051
+const CstServerIP = '0.0.0.0'
+const CstServerPort = 9090
 
 const CstService = {
   Air: 'air',
@@ -22,8 +22,6 @@ const CstCmd = {
   Start: 'start',
   Stop: 'stop',
 }
-
-
 
 const CstHelpTxt = `
 Control the submarine via the 'station' 'action' 'command'

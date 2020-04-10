@@ -1,0 +1,1 @@
+docker build -t subdive-grpc-srv .

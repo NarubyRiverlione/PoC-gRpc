@@ -1,5 +1,5 @@
-const { CstCmd, CstActions, CstUnknown } = require('../Cst.js')
-const Client = require('../gRpc/Client')
+const { CstCmd, CstActions, CstUnknown } = require('../gRpc/Cst.js')
+const Client = require('./Client')
 
 const CmdBlowBalast = (rpcCmd, rpcAction) => {
   const client = new Client()

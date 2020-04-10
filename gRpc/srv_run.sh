@@ -1,0 +1,1 @@
+docker run -d --rm -p 9090:9090 --name subdive-srv subdive-grpc-srv

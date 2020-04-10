@@ -1,11 +1,10 @@
 {
-  "name": "poc-grpc",
+  "name": "subdive-grpc-cli-client",
   "version": "1.0.0",
-  "description": "",
+  "description": "gRPC command line client for SubDive",
+  "main": "cli.js",
   "scripts": {
-    "lint": "eslint */*.js --fix",
-    "cli": "cross-env DEBUG=subber:*  node cli.js",
-    "server": "cross-env DEBUG=subber:*  nodemon ./gRpc/server.js"
+    "cli": "cross-env DEBUG=subber:* node cli"
   },
   "keywords": [],
   "author": "Naruby",
@@ -20,11 +19,5 @@
     "debug": "^4.1.1",
     "google-protobuf": "^3.0.0",
     "grpc": "^1.11.0"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "/gRpc/server.js",
-      "/gRpc/subber.js"
-    ]
   }
 }

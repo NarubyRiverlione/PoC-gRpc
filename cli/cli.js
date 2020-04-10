@@ -1,10 +1,10 @@
 'use strict'
-const ActionsAir = require('./cli/cli-air')
-const ActionsBalast = require('./cli/cli-balast')
-const ActionsDepth = require('./cli/cli-depth')
-const ConnActions = require('./cli/cli-conn')
+const ActionsAir = require('./cli-air')
+const ActionsBalast = require('./cli-balast')
+const ActionsDepth = require('./cli-depth')
+const ConnActions = require('./cli-conn')
 
-const { CstService, CstHelpTxt, CstUnknown } = require('./Cst.js')
+const { CstService, CstHelpTxt, CstUnknown } = require('../gRpc/Cst')
 
 
 const Args = process.argv

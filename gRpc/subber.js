@@ -1,7 +1,7 @@
 'use strict'
 const debug = require('debug')('subber:subber')
 
-const { CstBoundaries, CstChanges } = require('../Cst')
+const { CstBoundaries, CstChanges } = require('./Cst')
 const { CheckBoundaries } = require('./common')
 
 module.exports = class Subber {

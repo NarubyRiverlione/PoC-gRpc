@@ -3,10 +3,10 @@ const debug = require('debug')('subber:client')
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 
-const { CstServerIP, CstServerPort } = require('../Cst')
+const { CstServerIP, CstServerPort } = require('../gRpc/Cst')
 
 
-const PROTO_PATH = __dirname + '/Subber.proto'
+const PROTO_PATH = __dirname + '/../gRpc/protoc/Subber.proto'
 
 const packageDefinition = protoLoader.loadSync(
   PROTO_PATH,

@@ -1,0 +1,1 @@
+docker build -t my-envoy:1.0 .
