@@ -63,7 +63,11 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     if (this.AirChargingInterval) {
       this.ExtraStatusTxt += 'Stop charging air'
       clearInterval(this.AirChargingInterval)
+      this.AirChargingInterval = null
     }
+  }
+  IsAirCharging() {
+    return this.AirChargingInterval !== null
   }
   //#endregion
 
@@ -124,7 +128,11 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     if (this.BlowInterval) {
       this.ExtraStatusTxt += 'Stop blowing balasttank'
       clearInterval(this.BlowInterval)
+      this.BlowInterval = null
     }
+  }
+  IsBalastBlowing() {
+    return this.BlowStart !== null
   }
 
   FillStart() {
@@ -142,7 +150,11 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     if (this.FillInterval) {
       this.ExtraStatusTxt += 'Stop Filling balasttank'
       clearInterval(this.FillInterval)
+      this.FillInterval = null
     }
+  }
+  IsBalastFilling() {
+    return this.FillInterval !== null
   }
   //#endregion
 }

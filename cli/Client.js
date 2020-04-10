@@ -81,7 +81,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
     })
   }
@@ -92,7 +92,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
 
     })
@@ -131,7 +131,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
     })
   }
@@ -142,7 +142,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
     })
   }
@@ -153,7 +153,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
     })
   }
@@ -164,7 +164,7 @@ module.exports = class Client {
         if (err) {
           return reject(err)
         }
-        return resolve(respone.status)
+        return resolve(respone)
       })
     })
   }

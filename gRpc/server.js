@@ -40,7 +40,7 @@ const StatusUpdates = (call) => {
 
 const EndStatusUpdates = () => {
   if (statusUpdates) statusUpdates.end()
-  return ({ status: 'Status updates stopped' })
+  return ({ message: 'Status updates stopped' })
 }
 //#endregion
 
@@ -56,11 +56,11 @@ const getAir = (call, callback) => {
 // }
 const StartChargeAir = (call, callback) => {
   subber.StartChargeAir()
-  callback(null, { status: 'Charging air supply' })
+  callback(null, { status: subber.IsAirCharging(), message: 'Charging air supply' })
 }
 const StopChargeAir = (call, callback) => {
   subber.StopChargeAir()
-  callback(null, { status: 'Stopped charging air supply' })
+  callback(null, { status: false, message: 'Stopped charging air supply' })
 }
 
 //#endregion
@@ -80,19 +80,19 @@ const getBalast = (call, callback) => {
 
 const BlowStart = (call, callback) => {
   subber.BlowStart()
-  callback(null, { status: 'Blowing' })
+  callback(null, { status: subber.IsBalastBlowing(), message: 'Blowing' })
 }
 const BlowStop = (call, callback) => {
   subber.BlowStop()
-  callback(null, { status: 'Stop blowing' })
+  callback(null, { status: false, message: 'Stop blowing' })
 }
 const FillStart = (call, callback) => {
   subber.FillStart()
-  callback(null, { status: 'Filling' })
+  callback(null, { status: subber.IsBalastFilling(), message: 'Filling' })
 }
 const FillStop = (call, callback) => {
   subber.FillStop()
-  callback(null, { status: 'Stop Filling' })
+  callback(null, { status: false, message: 'Stop Filling' })
 }
 
 //#endregion

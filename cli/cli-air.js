@@ -6,13 +6,13 @@ const CmdAirCharge = (rpcCmd, rpcAction) => {
   switch (rpcCmd) {
     case CstCmd.Start:
       client.StartChargeAir()
-        .then(status => console.log(status))
+        .then(resp => console.log(`${resp.status ? 'start charging' : 'NOT charging'}, message : ${resp.message}`))
         .catch(err => console.error(err.message))
       break
 
     case CstCmd.Stop:
       client.StopChargeAir()
-        .then(status => console.log(status))
+        .then(resp => console.log(`Charging: ${resp.status}, message : ${resp.message}`))
         .catch(err => console.error(err.message))
       break
     default:

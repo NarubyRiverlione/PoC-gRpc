@@ -6,18 +6,18 @@ service Conn {
 }
 service Air {
   rpc Info (EmptyRequest) returns (ValueResponse);
-  rpc ChargeStart (EmptyRequest) returns (StatusResponse);
-  rpc ChargeStop (EmptyRequest) returns (StatusResponse);
+  rpc ChargeStart (EmptyRequest) returns (StartStopResponse);
+  rpc ChargeStop (EmptyRequest) returns (StartStopResponse);
 }
 service Depth {
   rpc Info (EmptyRequest) returns (ValueResponse);
 }
 service Balast {
   rpc Info (EmptyRequest) returns (ValueResponse);
-  rpc BlowStart (EmptyRequest) returns (StatusResponse);
-  rpc BlowStop (EmptyRequest) returns (StatusResponse);
-  rpc FillStart (EmptyRequest) returns (StatusResponse);
-  rpc FillStop (EmptyRequest) returns (StatusResponse);
+  rpc BlowStart (EmptyRequest) returns (StartStopResponse);
+  rpc BlowStop (EmptyRequest) returns (StartStopResponse);
+  rpc FillStart (EmptyRequest) returns (StartStopResponse);
+  rpc FillStop (EmptyRequest) returns (StartStopResponse);
 }
 
 message EmptyRequest {}
@@ -33,8 +33,13 @@ message ValueResponse {
   int32 value = 1;
 }
 
+message StartStopResponse{
+  bool status=1;
+ string message=2;
+}
+
 message StatusResponse{
-  string status=1;
+  bool status=1;
 }
 
 message ConnResponse{

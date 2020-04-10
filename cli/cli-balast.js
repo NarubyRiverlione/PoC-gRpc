@@ -6,13 +6,13 @@ const CmdBlowBalast = (rpcCmd, rpcAction) => {
   switch (rpcCmd) {
     case CstCmd.Start:
       client.BlowStart()
-        .then(status => console.log(status))
+        .then(resp => console.log(`${resp.status ? 'start blowing' : 'NOT blowing'}, message : ${resp.message}`))
         .catch(err => console.error(err.message))
       break
 
     case CstCmd.Stop:
       client.BlowStop()
-        .then(status => console.log(status))
+        .then(status => console.log(status.message))
         .catch(err => console.error(err.message))
       break
     default:
@@ -27,13 +27,13 @@ const CmdFillBalast = (rpcCmd, rpcAction) => {
 
     case CstCmd.Start:
       client.FillStart()
-        .then(status => console.log(status))
+        .then(resp => console.log(`${resp.status ? 'start filling' : 'NOT filling'}, message : ${resp.message}`))
         .catch(err => console.error(err.message))
       break
 
     case CstCmd.Stop:
       client.FillStop()
-        .then(status => console.log(status))
+        .then(status => console.log(status.message))
         .catch(err => console.error(err.message))
       break
 
