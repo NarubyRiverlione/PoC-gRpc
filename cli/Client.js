@@ -41,7 +41,7 @@ module.exports = class Client {
   ConnStatus(cb, errorCb, endCb) {
     const statusStream = this.connClient.StartStatusUpdates({})
     statusStream.on('data', (data) => {
-      if (cb) cb(data.status)
+      if (cb) cb(data)
     })
     statusStream.on('error', (error) => {
       if (errorCb) errorCb(error)

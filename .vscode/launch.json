@@ -39,10 +39,11 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/cli.js",
+      "program": "${workspaceFolder}/cli/cli.js",
       "args": [
-        "air",
-        "info"
+        "conn",
+        "status",
+        "start"
       ],
       "env": {
         "DEBUG": "subber:*"

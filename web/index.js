@@ -1,9 +1,10 @@
 import { EmptyRequest } from './Subber_pb'
-import { AirClient } from './Subber_grpc_web_pb'
+import { AirClient, ConnClient } from './Subber_grpc_web_pb'
 import './index.css'
 
+const envoyProxy = 'http://localhost:8080'
+
 const GetAirSupply = () => {
-  const envoyProxy = 'http://localhost:8080'
   const airService = new AirClient(envoyProxy)
 
   // rpc Info doesn't have any arguments = new EmptyRequest
@@ -25,4 +26,26 @@ const GetAirSupply = () => {
 
 }
 
+const StatusUpdates = () => {
+  const connService = new ConnClient(envoyProxy)
+
+  const statusStream = connService.startStatusUpdates(new EmptyRequest(), null)
+  statusStream.on('data', (data) => {
+
+    console.log(`Air = ${data.getAir()}`)
+    console.log(`Depth = ${data.getDepth()} meters`)
+    console.log(`Balast = ${data.getBalast()} %`)
+  })
+
+  statusStream.on('error', (err) => {
+    console.error(err.message)
+  })
+
+  statusStream.on('end', (status) => {
+    console.warn(`Status updates ended because: ${status}`)
+  })
+}
+
+
 window.GetAirSupply = GetAirSupply
+window.StatusUpdates = StatusUpdates

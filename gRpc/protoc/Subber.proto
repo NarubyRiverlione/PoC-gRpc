@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 service Conn {
-  rpc StartStatusUpdates (EmptyRequest) returns (stream StatusResponse);
+  rpc StartStatusUpdates (EmptyRequest) returns (stream ConnResponse);
   rpc EndStatusUpdates (EmptyRequest) returns (StatusResponse);
 }
 service Air {
@@ -35,4 +35,10 @@ message ValueResponse {
 
 message StatusResponse{
   string status=1;
+}
+
+message ConnResponse{
+  int32 air=1;
+  int32 depth=2;
+  int32 balast=3; 
 }

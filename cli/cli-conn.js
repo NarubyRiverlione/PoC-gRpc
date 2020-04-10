@@ -1,7 +1,12 @@
 const { CstCmd, CstActions, CstUnknown } = require('../gRpc/Cst.js')
 const Client = require('./Client')
 
-const showStatusUpdates = (status) => console.log(status)
+const showStatusUpdates = (status) => {
+  console.log(`Air = ${status.air}`)
+  console.log(`Depth = ${status.depth} meters`)
+  console.log(`Balast = ${status.balast} %`)
+
+}
 const showError = (error) => console.error(error)
 
 
