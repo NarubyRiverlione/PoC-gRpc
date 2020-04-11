@@ -46,4 +46,10 @@ message ConnResponse{
   int32 air=1;
   int32 depth=2;
   int32 balast=3; 
+
+  string message=4;
+
+  bool airCharging=5;
+  bool balastFilling=6;
+  bool balastBlowing=7;
 }

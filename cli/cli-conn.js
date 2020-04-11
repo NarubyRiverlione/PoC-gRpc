@@ -2,10 +2,14 @@ const { CstCmd, CstActions, CstUnknown } = require('../gRpc/Cst.js')
 const Client = require('./Client')
 
 const showStatusUpdates = (status) => {
+  if (status.message) console.log(`Status = ${status.message}`)
   console.log(`Air = ${status.air}`)
   console.log(`Depth = ${status.depth} meters`)
   console.log(`Balast = ${status.balast} %`)
-
+  if (status.airCharging) console.log('- Air is charging')
+  if (status.balastFilling) console.log('- Balast is filling')
+  if (status.balastBlowing) console.log('- Balast is blowing')
+  console.log('')
 }
 const showError = (error) => console.error(error)
 

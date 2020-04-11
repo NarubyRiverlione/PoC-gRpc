@@ -33,7 +33,15 @@ let statusUpdates = null
 const StatusUpdates = (call) => {
   statusUpdates = call
   setInterval(() => {
-    statusUpdates.write({ air: subber.Air, depth: subber.Depth, balast: subber.balast })
+    const connResponse = {
+      air: subber.Air, depth: subber.Depth, balast: subber.Balast,
+      message: subber.ExtraStatusTxt,
+      airCharging: subber.IsAirCharging(),
+      balastFilling: subber.IsBalastFilling(),
+      balastBlowing: subber.IsBalastBlowing(),
+    }
+    statusUpdates.write(connResponse)
+
     if (subber.ExtraStatusTxt) subber.ClearExtraStatus() // only show extra status message one time
   }, CstChanges.Interval)
 }

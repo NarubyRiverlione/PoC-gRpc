@@ -132,7 +132,7 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     }
   }
   IsBalastBlowing() {
-    return this.BlowStart !== null
+    return this.BlowInterval !== null
   }
 
   FillStart() {

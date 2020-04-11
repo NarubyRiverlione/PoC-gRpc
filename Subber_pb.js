@@ -981,11 +981,7 @@ proto.ConnResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     air: jspb.Message.getFieldWithDefault(msg, 1, 0),
     depth: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    balast: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    message: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    aircharging: jspb.Message.getBooleanFieldWithDefault(msg, 5, false),
-    balastfilling: jspb.Message.getBooleanFieldWithDefault(msg, 6, false),
-    balastblowing: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    balast: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -1034,22 +1030,6 @@ proto.ConnResponse.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt32());
       msg.setBalast(value);
       break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMessage(value);
-      break;
-    case 5:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setAircharging(value);
-      break;
-    case 6:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setBalastfilling(value);
-      break;
-    case 7:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setBalastblowing(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -1097,34 +1077,6 @@ proto.ConnResponse.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt32(
       3,
-      f
-    );
-  }
-  f = message.getMessage();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getAircharging();
-  if (f) {
-    writer.writeBool(
-      5,
-      f
-    );
-  }
-  f = message.getBalastfilling();
-  if (f) {
-    writer.writeBool(
-      6,
-      f
-    );
-  }
-  f = message.getBalastblowing();
-  if (f) {
-    writer.writeBool(
-      7,
       f
     );
   }
@@ -1182,78 +1134,6 @@ proto.ConnResponse.prototype.getBalast = function() {
  */
 proto.ConnResponse.prototype.setBalast = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
-};
-
-
-/**
- * optional string message = 4;
- * @return {string}
- */
-proto.ConnResponse.prototype.getMessage = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ConnResponse} returns this
- */
-proto.ConnResponse.prototype.setMessage = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional bool airCharging = 5;
- * @return {boolean}
- */
-proto.ConnResponse.prototype.getAircharging = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.ConnResponse} returns this
- */
-proto.ConnResponse.prototype.setAircharging = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 5, value);
-};
-
-
-/**
- * optional bool balastFilling = 6;
- * @return {boolean}
- */
-proto.ConnResponse.prototype.getBalastfilling = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 6, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.ConnResponse} returns this
- */
-proto.ConnResponse.prototype.setBalastfilling = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 6, value);
-};
-
-
-/**
- * optional bool balastBlowing = 7;
- * @return {boolean}
- */
-proto.ConnResponse.prototype.getBalastblowing = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.ConnResponse} returns this
- */
-proto.ConnResponse.prototype.setBalastblowing = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
 
