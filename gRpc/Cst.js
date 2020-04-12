@@ -82,6 +82,9 @@ const CstChanges = {
   },
   Air: {
     Charging: 5
+  },
+  Depth: {
+    BuoyancyFactor: 0.1 // 50 balast = 5 depth change per tick
   }
 }
 

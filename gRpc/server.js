@@ -31,8 +31,12 @@ let statusUpdates = null
 
 //#region  CONN
 const StatusUpdates = (call) => {
-  statusUpdates = call
+
   setInterval(() => {
+    // update depth
+    subber.UpdateDepth()
+
+    // get sub status
     const connResponse = {
       air: subber.Air, depth: subber.Depth, balast: subber.Balast,
       message: subber.ExtraStatusTxt,
@@ -40,7 +44,9 @@ const StatusUpdates = (call) => {
       balastFilling: subber.IsBalastFilling(),
       balastBlowing: subber.IsBalastBlowing(),
     }
-    statusUpdates.write(connResponse)
+    call.write(connResponse)
+
+    // remove status message when it's passed to the client
     subber.ClearExtraStatus()
   }, CstChanges.Interval)
 }

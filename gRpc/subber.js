@@ -10,6 +10,8 @@ module.exports = class Subber {
     this.Depth = 0
     this.Balast = 0
 
+    this.BalastNeutral = 50
+
     this.AirChargingInterval = null
     this.BlowInterval = null
     this.FillInterval = null
@@ -53,6 +55,7 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
   ChangeAir(change) {
     if (change > 0 && this.Depth !== 0) {
       this.ExtraStatusTxt += CstTxt.Air.OnlyChargeOnSurface
+      this.StopChargeAir()
       return
     }
     this.Air += change
@@ -88,6 +91,19 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     const Checked = CheckBoundaries(CstBoundaries.Depth.Min, CstBoundaries.Depth.Max, depth)
     // this.ExtraStatusTxt='SET depth to ' + Checked
     this.Depth = Checked
+  }
+
+  UpdateDepth() {
+    // balast > neutral = negative buoyancy 
+    // balast < neutral = positive buoyancy
+    const buoyancy = this.BalastNeutral - this.Balast
+
+    // neg buoyancy = depth increasing
+    const newDepth = this.Depth - buoyancy * CstChanges.Depth.BuoyancyFactor
+    if (buoyancy !== 0) {
+      debug(`Buoyancy = ${buoyancy} -> new depth = ${newDepth}`)
+      this.SetDepth(newDepth)
+    }
   }
 
 
