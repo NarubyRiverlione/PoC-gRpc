@@ -38,10 +38,20 @@ const StatusCmd = (rpcCmd, rpcAction) => {
   }
 }
 
+const ResetCmd = () => {
+  const client = new Client()
+  client.Setup({ air: 100, depth: 0, balast: 0 })
+    .then(resp => showStatusUpdates(resp))
+    .catch(err => console.error(err.message))
+}
+
 const ConnActions = (rpcAction, rpcCmd) => {
   switch (rpcAction) {
     case CstActions.Status:
       StatusCmd(rpcCmd, rpcAction)
+      break
+    case CstActions.Reset:
+      ResetCmd(rpcCmd, rpcAction)
       break
 
     default:

@@ -61,6 +61,16 @@ module.exports = class Client {
       })
     })
   }
+  Setup({ air, depth, balast }) {
+    return new Promise((resolve, reject) => {
+      this.connClient.Setup({ air, depth, balast }, (err, respone) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(respone)
+      })
+    })
+  }
   //#endregion
 
   //#region AIR

@@ -3,6 +3,7 @@ syntax = "proto3";
 service Conn {
   rpc StartStatusUpdates (EmptyRequest) returns (stream ConnResponse);
   rpc EndStatusUpdates (EmptyRequest) returns (StatusResponse);
+  rpc Setup (SetupRequest) returns (ConnResponse);
 }
 service Air {
   rpc Info (EmptyRequest) returns (ValueResponse);
@@ -20,6 +21,8 @@ service Balast {
   rpc FillStop (EmptyRequest) returns (StartStopResponse);
 }
 
+
+
 message EmptyRequest {}
 
 message SetRequest {
@@ -28,20 +31,24 @@ message SetRequest {
 message ChangeRequest {
   int32 delta = 1;
 }
+message SetupRequest{
+  int32 air=1;
+  int32 depth=2;
+  int32 balast=3; 
+}
+
+
 
 message ValueResponse {
   int32 value = 1;
 }
-
 message StartStopResponse{
   bool status=1;
  string message=2;
 }
-
 message StatusResponse{
   bool status=1;
 }
-
 message ConnResponse{
   int32 air=1;
   int32 depth=2;

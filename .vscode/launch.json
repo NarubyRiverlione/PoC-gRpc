@@ -42,8 +42,7 @@
       "program": "${workspaceFolder}/cli/cli.js",
       "args": [
         "conn",
-        "status",
-        "start"
+        "reset",
       ],
       "env": {
         "DEBUG": "subber:*"

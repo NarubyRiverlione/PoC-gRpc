@@ -15,7 +15,8 @@ const CstActions = {
   Charge: 'charge',
   Blow: 'blow',
   Info: 'info',
-  Status: 'status'
+  Status: 'status',
+  Reset: 'reset'
 }
 
 const CstCmd = {
@@ -36,6 +37,9 @@ const CstTxt = {
       ${CstService.Depth}           
   
       ${CstService.Conn}    ${CstActions.Status}    ${CstCmd.Start} - ${CstCmd.Stop}
+      ${CstService.Conn}    ${CstActions.Reset}   
+     
+     
       General action for all stations: ${CstActions.Info}
       
       `,

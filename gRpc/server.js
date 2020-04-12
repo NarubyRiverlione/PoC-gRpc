@@ -49,6 +49,19 @@ const EndStatusUpdates = () => {
   if (statusUpdates) statusUpdates.end()
   return ({ message: 'Status updates stopped' })
 }
+const Setup = (call, cb) => {
+  const { air, depth, balast } = call.request
+  subber.Setup(air, depth, balast)
+
+  const connResponse = {
+    air: subber.Air, depth: subber.Depth, balast: subber.Balast,
+    message: subber.ExtraStatusTxt,
+    airCharging: subber.IsAirCharging(),
+    balastFilling: subber.IsBalastFilling(),
+    balastBlowing: subber.IsBalastBlowing(),
+  }
+  cb(null, connResponse)
+}
 //#endregion
 
 //#region Air 
@@ -56,11 +69,7 @@ const getAir = (call, callback) => {
   debug('GET air: ' + subber.Air)
   callback(null, { value: subber.Air })
 }
-// const SetAir = (call, callback) => {
-//   const { request: { newValue } } = call
-//   subber.SetAir(newValue)
-//   return getAir(call, callback)
-// }
+
 const StartChargeAir = (call, callback) => {
   subber.StartChargeAir()
   callback(null, { status: subber.IsAirCharging(), message: 'Charging air supply' })
@@ -115,7 +124,7 @@ const server = () => {
   const serverPort = Args[3] || CstServerPort
 
   const server = new grpc.Server()
-  server.addService(proto.Conn.service, { StartStatusUpdates: StatusUpdates, EndStatusUpdates })
+  server.addService(proto.Conn.service, { StartStatusUpdates: StatusUpdates, EndStatusUpdates, Setup })
   server.addService(proto.Air.service, { Info: getAir, ChargeStart: StartChargeAir, ChargeStop: StopChargeAir })
   server.addService(proto.Depth.service, { Info: getDepth })
   server.addService(proto.Balast.service, { Info: getBalast, BlowStart, BlowStop, FillStart, FillStop })

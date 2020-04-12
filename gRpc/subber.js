@@ -6,9 +6,9 @@ const { CheckBoundaries } = require('./common')
 
 module.exports = class Subber {
   constructor() {
-    this.Air = 50
+    this.Air = 100
     this.Depth = 0
-    this.Balast = 80
+    this.Balast = 0
 
     this.AirChargingInterval = null
     this.BlowInterval = null
@@ -24,10 +24,24 @@ Depth = ${ this.Depth.toFixed(0)} meters
 Air = ${ this.Air.toFixed(0)} %
 Balasttank = ${ this.Balast.toFixed(0)} % `
   }
-
   ClearExtraStatus() {
     this.ExtraStatusTxt = ''
   }
+  Setup(air, depth, balast) {
+    this.Air = air
+    this.Depth = depth,
+      this.Balast = balast
+  }
+  Reset() {
+    this.Air = 100
+    this.Depth = 0
+    this.Balast = 0
+
+    this.AirChargingInterval = null
+    this.BlowInterval = null
+    this.FillInterval = null
+  }
+
   //#endregion
 
   //#region Air
@@ -75,6 +89,8 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     // this.ExtraStatusTxt='SET depth to ' + Checked
     this.Depth = Checked
   }
+
+
   //#endregion
 
   //#region Balast
