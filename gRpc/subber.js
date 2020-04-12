@@ -1,7 +1,7 @@
 'use strict'
 const debug = require('debug')('subber:subber')
 
-const { CstBoundaries, CstChanges } = require('./Cst')
+const { CstBoundaries, CstChanges, CstTxt } = require('./Cst')
 const { CheckBoundaries } = require('./common')
 
 module.exports = class Subber {
@@ -32,36 +32,34 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
 
   //#region Air
   SetAir(o2) {
-    if (this.Depth !== 0) {
-      this.ExtraStatusTxt += 'Cannot charge air supply will not on the surface'
-      return
-    }
     const Checked = CheckBoundaries(CstBoundaries.Air.Min, CstBoundaries.Air.Max, o2)
     debug('SET air to ' + Checked)
     this.Air = Checked
   }
   ChangeAir(change) {
     if (change > 0 && this.Depth !== 0) {
-      this.ExtraStatusTxt += 'Cannot charge air supply will not on the surface'
+      this.ExtraStatusTxt += CstTxt.Air.OnlyChargeOnSurface
       return
     }
     this.Air += change
     const Checked = CheckBoundaries(CstBoundaries.Air.Min, CstBoundaries.Air.Max, this.Air)
+    debug(`CHANGE air by ${change} to ${Checked}`)
     this.Air = Checked
   }
+
   StartChargeAir() {
-    this.ExtraStatusTxt += 'Start charging air'
+    this.ExtraStatusTxt += CstTxt.Air.StartCharging
     this.AirChargingInterval = setInterval(() => {
       this.ChangeAir(CstChanges.Air.Charging)
       if (this.Air === CstBoundaries.Air.Max) {
-        this.ExtraStatusTxt += 'Air supply is full, stop charging'
+        this.ExtraStatusTxt += CstTxt.Air.ChargingDone
         this.StopChargeAir()
       }
     }, CstChanges.Interval)
   }
   StopChargeAir() {
     if (this.AirChargingInterval) {
-      this.ExtraStatusTxt += 'Stop charging air'
+      // this.ExtraStatusTxt +=CstTxt.Air.StopCharging
       clearInterval(this.AirChargingInterval)
       this.AirChargingInterval = null
     }
@@ -85,7 +83,6 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
     debug('SET balast to ' + Checked.toFixed(0))
     this.Balast = Checked
   }
-
   ChangeBalast(delta) {
     debug(`Want to change balast ${this.Balast.toFixed(0)}% by ${delta} `)
     let newBalast
@@ -93,18 +90,20 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
       // BLOWING
       // Air in supply ?
       if (this.Air === 0) {
-        this.ExtraStatusTxt += 'No air supply, stop blowing balasttank'
+        this.ExtraStatusTxt += CstTxt.Balast.NoAirNoBlow
         this.BlowStop()
         return
       }
       // check if enough air is stored to make the balast change
       const neededAir = delta * CstChanges.Balast.NeededAir
+      debug(`- need ${neededAir} air needed, have ${this.Air}  = ${this.Air + neededAir < CstBoundaries.Air.Min ? 'NOK' : 'ok'} `)
+
       const useAir = (this.Air + neededAir) < CstBoundaries.Air.Min ?
         -this.Air : neededAir
       // remove air from storage
       this.ChangeAir(useAir)
       // change depth by blowing tank
-      newBalast = this.Balast + useAir * CstChanges.Balast.NeededAir
+      newBalast = this.Balast + (useAir / CstChanges.Balast.NeededAir)
     }
     else {
       // FILLING
@@ -115,18 +114,18 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
   }
 
   BlowStart() {
-    this.ExtraStatusTxt += 'Start blowing balasttank'
+    this.ExtraStatusTxt += CstTxt.Balast.StartBlowing
     this.BlowInterval = setInterval(() => {
       this.ChangeBalast(CstChanges.Balast.Blowing)
       if (this.Balast === CstBoundaries.Balast.Min) {
-        this.ExtraStatusTxt += 'balastank is empty, stop blowing'
+        this.ExtraStatusTxt += CstTxt.Balast.BlowingDone
         this.BlowStop()
       }
     }, CstChanges.Interval)
   }
   BlowStop() {
     if (this.BlowInterval) {
-      this.ExtraStatusTxt += 'Stop blowing balasttank'
+      // this.ExtraStatusTxt += CstTxt.Balast.StopBlowing
       clearInterval(this.BlowInterval)
       this.BlowInterval = null
     }
@@ -136,19 +135,18 @@ Balasttank = ${ this.Balast.toFixed(0)} % `
   }
 
   FillStart() {
-    this.ExtraStatusTxt += 'Start Filling balasttank'
+    this.ExtraStatusTxt += CstTxt.Balast.FillingStart
     this.FillInterval = setInterval(() => {
       this.ChangeBalast(CstChanges.Balast.Filling)
       if (this.Balast === CstBoundaries.Balast.Max) {
-        this.ExtraStatusTxt += 'balasttank is full, stop filling'
+        this.ExtraStatusTxt += CstTxt.Balast.FillingDone
         this.FillStop()
       }
     }, CstChanges.Interval)
   }
-
   FillStop() {
     if (this.FillInterval) {
-      this.ExtraStatusTxt += 'Stop Filling balasttank'
+      // this.ExtraStatusTxt += CstTxt.Balast.FillingStop
       clearInterval(this.FillInterval)
       this.FillInterval = null
     }

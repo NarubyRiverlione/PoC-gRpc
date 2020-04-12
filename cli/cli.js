@@ -4,8 +4,8 @@ const ActionsBalast = require('./cli-balast')
 const ActionsDepth = require('./cli-depth')
 const ConnActions = require('./cli-conn')
 
-const { CstService, CstHelpTxt, CstUnknown } = require('../gRpc/Cst')
-
+const { CstService, CstTxt } = require('../gRpc/Cst')
+const { UnknownTxt, HelpTxt } = CstTxt
 
 const Args = process.argv
 // console.log(Args)
@@ -26,14 +26,14 @@ switch (rpcService) {
     ActionsBalast(rpcAction, rpcCmd)
     break
   case CstService.Help:
-    console.log(CstHelpTxt)
+    console.log(HelpTxt)
     break
   case CstService.Conn:
     ConnActions(rpcAction, rpcCmd)
     break
 
   default:
-    console.error(`${CstUnknown.Service}: ${rpcService}
-    ${CstUnknown.UseHelp}`)
+    console.error(`${UnknownTxt.Service}: ${rpcService}
+    ${UnknownTxt.UseHelp}`)
 }
 

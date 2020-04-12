@@ -1,4 +1,5 @@
-const { CstCmd, CstActions, CstUnknown } = require('../gRpc/Cst.js')
+const { CstCmd, CstActions, CstTxt } = require('../gRpc/Cst.js')
+const { UnknownTxt } = CstTxt
 const Client = require('./Client')
 
 const CmdAirCharge = (rpcCmd, rpcAction) => {
@@ -16,8 +17,8 @@ const CmdAirCharge = (rpcCmd, rpcAction) => {
         .catch(err => console.error(err.message))
       break
     default:
-      console.error(`${CstUnknown.Cmd} for Air station and action ${rpcAction} - '${rpcCmd}'
-      ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Cmd} for Air station and action ${rpcAction} - '${rpcCmd}'
+      ${UnknownTxt.UseHelp}`)
   }
 }
 
@@ -35,8 +36,8 @@ const ActionsAir = (rpcAction, rpcCmd) => {
       break
 
     default:
-      console.error(`${CstUnknown.Action} for Air station: '${rpcAction}'
-      ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Action} for Air station: '${rpcAction}'
+      ${UnknownTxt.UseHelp}`)
   }
 }
 

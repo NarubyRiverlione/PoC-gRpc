@@ -23,27 +23,44 @@ const CstCmd = {
   Stop: 'stop',
 }
 
-const CstHelpTxt = `
-Control the submarine via the 'station' 'action' 'command'
-    * Stations *        * Actions *             * Commands *
-    ${CstService.Air}   ${CstActions.Charge}    ${CstCmd.Start} - ${CstCmd.Stop}
-    
-    ${CstService.Balast}   ${CstActions.Fill}    ${CstCmd.Start} - ${CstCmd.Stop}
-    ${CstService.Balast}   ${CstActions.Blow}    ${CstCmd.Start} - ${CstCmd.Stop}
 
-    ${CstService.Depth}           
+const CstTxt = {
+  HelpTxt: `
+  Control the submarine via the 'station' 'action' 'command'
+      * Stations *        * Actions *             * Commands *
+      ${CstService.Air}   ${CstActions.Charge}    ${CstCmd.Start} - ${CstCmd.Stop}
+      
+      ${CstService.Balast}   ${CstActions.Fill}    ${CstCmd.Start} - ${CstCmd.Stop}
+      ${CstService.Balast}   ${CstActions.Blow}    ${CstCmd.Start} - ${CstCmd.Stop}
+  
+      ${CstService.Depth}           
+  
+      ${CstService.Conn}    ${CstActions.Status}    ${CstCmd.Start} - ${CstCmd.Stop}
+      General action for all stations: ${CstActions.Info}
+      
+      `,
+  UnknownTxt: {
+    Service: 'Unknown station',
+    Action: 'Unknown action',
+    Cmd: 'Unknown command',
+    UseHelp: 'use \'cli  help\' for more information'
+  },
+  Air: {
+    OnlyChargeOnSurface: 'Cannot charge air supply will not on the surface',
+    StartCharging: 'Start charging air',
+    ChargingDone: 'Air supply is full, stop charging',
+    StopCharging: 'Stop charging air'
+  },
+  Balast: {
+    NoAirNoBlow: 'Air supply is empty, stop blowing balasttank',
+    StartBlowing: 'Start blowing balasttank',
+    BlowingDone: 'Balastank is empty, stop blowing',
+    StopBlowing: 'Stop blowing balasttank',
 
-    ${CstService.Conn}    ${CstActions.Status}    ${CstCmd.Start} - ${CstCmd.Stop}
-    General action for all stations: ${CstActions.Info}
-
-    
-    `
-
-const CstUnknown = {
-  Service: 'Unknown station',
-  Action: 'Unknown action',
-  Cmd: 'Unknown command',
-  UseHelp: 'use \'cli  help\' for more information'
+    FillingStart: 'Start Filling balasttank',
+    FillingDone: 'balasttank is full, stop filling',
+    FillingStop: 'Stop Filling balasttank'
+  }
 }
 
 const CstBoundaries = {
@@ -55,8 +72,8 @@ const CstBoundaries = {
 const CstChanges = {
   Interval: 1000,
   Balast: {
-    NeededAir: 0.8, // = 80 air needed for full blow
-    Blowing: -5, // = 20 step
+    Blowing: -5, // = 20 step for complete emptying balasttank
+    NeededAir: 0.8, // = 80% air needed for full blow
     Filling: 10
   },
   Air: {
@@ -65,7 +82,7 @@ const CstChanges = {
 }
 
 module.exports = {
-  CstCmd, CstService, CstHelpTxt, CstUnknown,
+  CstCmd, CstService,
   CstServerIP, CstServerPort, CstBoundaries,
-  CstChanges, CstActions
+  CstChanges, CstActions, CstTxt
 }

@@ -1,4 +1,5 @@
-const { CstCmd, CstActions, CstUnknown } = require('../gRpc/Cst.js')
+const { CstCmd, CstActions, CstTxt } = require('../gRpc/Cst.js')
+const { UnknownTxt } = CstTxt
 const Client = require('./Client')
 
 const CmdBlowBalast = (rpcCmd, rpcAction) => {
@@ -16,8 +17,8 @@ const CmdBlowBalast = (rpcCmd, rpcAction) => {
         .catch(err => console.error(err.message))
       break
     default:
-      console.error(`${CstUnknown.Cmd} for Balast station and action ${rpcAction} - '${rpcCmd}'
-      ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Cmd} for Balast station and action ${rpcAction} - '${rpcCmd}'
+      ${UnknownTxt.UseHelp}`)
   }
 }
 
@@ -38,8 +39,8 @@ const CmdFillBalast = (rpcCmd, rpcAction) => {
       break
 
     default:
-      console.error(`${CstUnknown.Cmd} for Balast station and action ${rpcAction} - '${rpcCmd}'
-        ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Cmd} for Balast station and action ${rpcAction} - '${rpcCmd}'
+        ${UnknownTxt.UseHelp}`)
   }
 }
 
@@ -62,8 +63,8 @@ const ActionsBalast = (rpcAction, rpcCmd) => {
 
 
     default:
-      console.error(`${CstUnknown.Action} for Balast station: ${rpcAction}
-      ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Action} for Balast station: ${rpcAction}
+      ${UnknownTxt.UseHelp}`)
   }
 }
 

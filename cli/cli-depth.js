@@ -1,4 +1,5 @@
-const { CstActions, CstUnknown } = require('../gRpc/Cst.js')
+const { CstActions, CstTxt } = require('../gRpc/Cst.js')
+const { UnknownTxt } = CstTxt
 const Client = require('./Client')
 
 const ActionsDepth = (rpcAction) => {
@@ -11,8 +12,8 @@ const ActionsDepth = (rpcAction) => {
       break
 
     default:
-      console.error(`${CstUnknown.Action} for depth station - ${rpcAction}
-      ${CstUnknown.UseHelp}`)
+      console.error(`${UnknownTxt.Action} for depth station - ${rpcAction}
+      ${UnknownTxt.UseHelp}`)
   }
 }
 

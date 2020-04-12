@@ -41,8 +41,7 @@ const StatusUpdates = (call) => {
       balastBlowing: subber.IsBalastBlowing(),
     }
     statusUpdates.write(connResponse)
-
-    if (subber.ExtraStatusTxt) subber.ClearExtraStatus() // only show extra status message one time
+    subber.ClearExtraStatus()
   }, CstChanges.Interval)
 }
 
