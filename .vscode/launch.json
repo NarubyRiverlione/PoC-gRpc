@@ -10,6 +10,7 @@
       "name": "nodemon Server",
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/gRpc/server.js",
+      "localRoot": "${workspaceFolder}/gRpc",
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -41,8 +42,8 @@
       ],
       "program": "${workspaceFolder}/cli/cli.js",
       "args": [
-        "conn",
-        "reset",
+        "air",
+        "info",
       ],
       "env": {
         "DEBUG": "subber:*"

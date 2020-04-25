@@ -1,5 +1,8 @@
 'use strict'
 const debug = require('debug')('subber:server')
+const fs = require('fs')
+const path = require('path')
+
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 
@@ -134,7 +137,15 @@ const server = () => {
   server.addService(proto.Air.service, { Info: getAir, ChargeStart: StartChargeAir, ChargeStop: StopChargeAir })
   server.addService(proto.Depth.service, { Info: getDepth })
   server.addService(proto.Balast.service, { Info: getBalast, BlowStart, BlowStop, FillStart, FillStop })
-  server.bind(`${serverIP}:${serverPort}`, grpc.ServerCredentials.createInsecure())
+
+  const certPath = './Certs/'
+  const CA = fs.readFileSync(certPath + 'ca.crt')
+  const srvCert = fs.readFileSync(certPath + 'server.crt')
+  const priv = fs.readFileSync(certPath + 'server.key')
+  const keyPair = [{ private_key: priv, cert_chain: srvCert }]
+  const ssl_credentials = grpc.ServerCredentials.createSsl(CA, keyPair, true)
+  server.bind(`${serverIP}:${serverPort}`, ssl_credentials)
+  // server.bind(`${serverIP}:${serverPort}`, grpc.ServerCredentials.createInsecure())
   server.start()
 }
 

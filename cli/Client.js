@@ -1,4 +1,5 @@
 'use strict'
+const fs = require('fs')
 const debug = require('debug')('subber:client')
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
@@ -24,17 +25,26 @@ const proto = grpc.loadPackageDefinition(packageDefinition)
 
 module.exports = class Client {
   constructor(serverIP = CstServerIP, serverPort = CstServerPort) {
-    this.airClient = new proto.Air(`${serverIP}:${serverPort}`,
-      grpc.credentials.createInsecure())
+    console.log(`connecting to ${serverIP} on port ${serverPort}`)
+    const certPath = './Certs/'
+    const CA = fs.readFileSync(certPath + 'ca.crt')
+    const clientCert = fs.readFileSync(certPath + 'client.crt')
+    const privateKey = fs.readFileSync(certPath + 'client.key')
 
-    this.depthClient = new proto.Depth(`${serverIP}:${serverPort}`,
-      grpc.credentials.createInsecure())
+    const ssl_credentials = grpc.credentials.createSsl(CA, privateKey, clientCert)
 
-    this.balastClient = new proto.Balast(`${serverIP}:${serverPort}`,
-      grpc.credentials.createInsecure())
+    this.airClient = new proto.Air(`${serverIP}:${serverPort}`, ssl_credentials)
+    // grpc.credentials.createInsecure())
 
-    this.connClient = new proto.Conn(`${serverIP}:${serverPort}`,
-      grpc.credentials.createInsecure())
+    this.depthClient = new proto.Depth(`${serverIP}:${serverPort}`, ssl_credentials)
+    // grpc.credentials.createInsecure())
+
+    this.balastClient = new proto.Balast(`${serverIP}:${serverPort}`, ssl_credentials)
+    // grpc.credentials.createInsecure())
+
+    this.connClient = new proto.Conn(`${serverIP}:${serverPort}`, ssl_credentials)
+    // grpc.credentials.createInsecure())
+
   }
 
   //#region  CONN

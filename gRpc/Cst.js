@@ -1,5 +1,5 @@
 
-const CstServerIP = '0.0.0.0'
+const CstServerIP = 'SubDive.local' //'0.0.0.0'
 const CstServerPort = 9090
 
 const CstService = {
